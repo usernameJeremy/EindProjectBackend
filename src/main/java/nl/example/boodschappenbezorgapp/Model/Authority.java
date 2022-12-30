@@ -1,8 +1,5 @@
 package nl.example.boodschappenbezorgapp.Model;
 
-
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 

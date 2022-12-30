@@ -1,11 +1,8 @@
 package nl.example.boodschappenbezorgapp.Model;
 
 import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +10,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 
 @Entity
+@Table(name = "grocerylist")
 public class BoodschapLijst {
 
     @Id
@@ -21,8 +19,10 @@ public class BoodschapLijst {
     private String name;
     private String address;
     private String products;
+    private int totalPrice;
     private String bezorginstructies;
     private int dateTime;
 
-
+    @OneToOne(mappedBy = "grocerylist")
+    private BezorgVerzoek deliveryRequests;
 }

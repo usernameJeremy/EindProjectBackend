@@ -1,19 +1,15 @@
-package nl.example.boodschappenbezorgapp.Model;
+package nl.example.boodschappenbezorgapp.DTO;
 
 import lombok.*;
-import javax.persistence.*;
+import nl.example.boodschappenbezorgapp.Model.BoodschapLijst;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+public class BezorgVerzoekDto {
 
-@Entity
-@Table(name = "deliveryrequests")
-public class BezorgVerzoek {
 
-    @Id
-    @GeneratedValue
     private Long id;
     private String Supermarkt;
     private String BezorgInstructies;
@@ -22,8 +18,5 @@ public class BezorgVerzoek {
     private String deliveryGuyName;
     private boolean bezorgd;
 
-
-    @OneToOne
-    @JoinColumn(name = "grocerylist_id")
     private BoodschapLijst groceryList;
 }
