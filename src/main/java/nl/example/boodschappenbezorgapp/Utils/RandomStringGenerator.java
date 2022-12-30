@@ -3,6 +3,7 @@ package nl.example.boodschappenbezorgapp.Utils;
 import java.util.Random;
 
 public class RandomStringGenerator {
+
     public static String generateAlphaNumeric(int length) {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
@@ -17,4 +18,5 @@ public class RandomStringGenerator {
 
         return generatedString;
     }
+
 }

@@ -1,4 +1,4 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
-public class ProductController {
+public class BoodschapLijstController {
 }

@@ -1,14 +1,57 @@
 package nl.example.boodschappenbezorgapp.Model;
 
+
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
+
+@Entity
+@Table(name = "users")
 public class User {
 
-    private Long id;
-    private String name;
-    private String adres;
-    private String zipcode;
+    @Id
+    @Column(nullable = false, unique = true)
+    private String username;
 
-    private boolean bezorger;//?
+    @Column(nullable = false, length = 255)
+    private String password;
 
-    //bezorger of ontvanger
+    @Column(nullable = false)
+    private boolean enabled = true;
+
+    @Column
+    private String apikey;
+
+    @Column
+    private String email;
+
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "username",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Authority> authorities = new HashSet<>();
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
+    }
+
+
 
 }

@@ -1,4 +1,9 @@
-package nl.example.boodschappenbezorgapp.InputDto;
+package nl.example.boodschappenbezorgapp.payload;
+
+
+
+
+
 
 public class AuthenticationRequest {
 

@@ -1,15 +1,23 @@
 package nl.example.boodschappenbezorgapp.Model;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 
 public class BezorgVerzoek {
 
     //Bezorg verzoek: Ontvanger,
 
-
+    @Id
+    @GeneratedValue
     private Long id;
-    private String Ontvanger;
+
     private String Supermarkt;
     private String BezorgInstructies;
-    private List<String> boodschappenlijst;
+    private int dateOfDelivery;
+    private String BezorgVerzoek;
+    private boolean bezorgd;
+
 }

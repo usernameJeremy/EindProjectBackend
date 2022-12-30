@@ -1,4 +1,4 @@
-package nl.example.boodschappenbezorgapp.OutpuDto;
+package nl.example.boodschappenbezorgapp.payload;
 
 public class AuthenticationResponse {
 

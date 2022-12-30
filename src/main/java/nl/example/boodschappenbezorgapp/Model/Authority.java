@@ -1,8 +1,9 @@
 package nl.example.boodschappenbezorgapp.Model;
 
 
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
