@@ -1,4 +1,4 @@
-package nl.example.boodschappenbezorgapp.Model;
+package nl.example.boodschappenbezorgapp.DTO;
 
 
 import lombok.*;
@@ -6,10 +6,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Rekening {
 
+public class RekeningDto {
 
     private Long id;
     private String products;
@@ -17,7 +15,4 @@ public class Rekening {
     private String reciever;
     private String deliveryAddress;
     private int totalAmount;
-
-
-    //one to one met boodschappen lijst
 }

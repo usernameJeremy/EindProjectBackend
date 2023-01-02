@@ -21,9 +21,7 @@ public class AccountService {
 
     private AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+
 
     public AccountDto transferToDto (Account account) {
 
@@ -33,7 +31,7 @@ public class AccountService {
         dto.setPassword(account.getPassword());
         dto.setName(account.getName());
         dto.setLastName(account.getLastName());
-        dto.setAdres(account.getAdres());
+        dto.setAdres(account.getAddress());
 
         return dto;
     }
@@ -47,7 +45,7 @@ public class AccountService {
         account.setPassword(accountDto.getPassword());
         account.setName(accountDto.getName());
         account.setLastName(accountDto.getLastName());
-        account.setAdres(accountDto.getAdres());
+        account.setAddress(accountDto.getAdres());
 
         return account;
     }
@@ -61,7 +59,7 @@ public class AccountService {
         newAccount.setPassword(accountDto.getPassword());
         newAccount.setName(accountDto.getName());
         newAccount.setLastName(accountDto.getLastName());
-        newAccount.setAdres(accountDto.getAdres());
+        newAccount.setAddress(accountDto.getAdres());
 
         Account savedAccount = accountRepository.save(newAccount);
         return savedAccount.getId();
@@ -108,7 +106,7 @@ public class AccountService {
             writeOverAccount.setPassword(accountDto.getPassword());
             writeOverAccount.setName(accountDto.getName());
             writeOverAccount.setLastName(accountDto.getLastName());
-            writeOverAccount.setAdres(accountDto.getAdres());
+            writeOverAccount.setAddress(accountDto.getAdres());
 
             accountRepository.save(writeOverAccount);
 
