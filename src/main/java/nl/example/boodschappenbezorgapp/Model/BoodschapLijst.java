@@ -24,5 +24,8 @@ public class BoodschapLijst {
     private String bezorginstructies;
     private int dateTime;
 
+    //one to one met bezorgverzoek
+    //one to one met rekening
+
 
 }

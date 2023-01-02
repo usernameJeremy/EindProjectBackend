@@ -10,10 +10,8 @@ import nl.example.boodschappenbezorgapp.Repository.UserRepository;
 import nl.example.boodschappenbezorgapp.Utils.RandomStringGenerator;
 
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;

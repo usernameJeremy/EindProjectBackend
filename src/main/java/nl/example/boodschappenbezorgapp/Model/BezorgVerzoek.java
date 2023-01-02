@@ -1,14 +1,19 @@
 package nl.example.boodschappenbezorgapp.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.*;
+import javax.persistence.*;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 
 public class BezorgVerzoek {
 
-    //Bezorg verzoek: Ontvanger,
+
 
     @Id
     @GeneratedValue
@@ -19,5 +24,8 @@ public class BezorgVerzoek {
     private int dateOfDelivery;
     private String BezorgVerzoek;
     private boolean bezorgd;
+
+    //one to one met boodschappenlijst
+    //many bezorgverzoeken to one deliveryGuy
 
 }
