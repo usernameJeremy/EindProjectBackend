@@ -1,12 +1,7 @@
 package nl.example.boodschappenbezorgapp.Model;
 
-
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,6 +40,10 @@ public class User {
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToOne
+    @JsonIgnore
+    private Account account;
+
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
@@ -52,6 +51,15 @@ public class User {
         this.authorities.remove(authority);
     }
 
+//    public void addAccount(Account account ) {this.account.add(account); }
+
+    public void removeAccount(Account account) {
+        this.account.remove(account);
+    }
 
 
+    public  void addAccount(String username, String name, String lastName, String address) {
+
+
+    }
 }

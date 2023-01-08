@@ -19,7 +19,6 @@ public class BoodschapLijstService {
         private BoodschaplijstRepository boodschaplijstRepository;
 
 
-
         public BoodschapLijstDto transferToDto (BoodschapLijst boodschapLijst) {
 
         BoodschapLijstDto dto = new BoodschapLijstDto();
@@ -30,6 +29,7 @@ public class BoodschapLijstService {
         dto.setProducts(boodschapLijst.getProducts());
         dto.setBezorginstructies(boodschapLijst.getBezorginstructies());
         dto.setDateTime(boodschapLijst.getDateTime());
+
 
         return dto;
     }

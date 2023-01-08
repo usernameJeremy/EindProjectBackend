@@ -25,7 +25,11 @@ public class BezorgVerzoek {
     private String BezorgVerzoek;
     private boolean bezorgd;
 
-    //one to one met boodschappenlijst
-    //many bezorgverzoeken to one deliveryGuy
 
+
+    @ManyToOne
+    private Account account;
+
+    @OneToOne
+    private BoodschapLijst grocerylist;
 }

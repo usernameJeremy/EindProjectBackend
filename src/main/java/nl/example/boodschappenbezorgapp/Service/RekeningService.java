@@ -1,5 +1,6 @@
 package nl.example.boodschappenbezorgapp.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import nl.example.boodschappenbezorgapp.DTO.BoodschapLijstDto;
 import nl.example.boodschappenbezorgapp.DTO.RekeningDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Optional;
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Service
 public class RekeningService {

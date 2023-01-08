@@ -1,7 +1,5 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
-
-
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
 import nl.example.boodschappenbezorgapp.Service.AccountService;
 import nl.example.boodschappenbezorgapp.Utils.Utils;
@@ -14,9 +12,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 
+
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/accounts")
 public class AccountController {
@@ -34,7 +33,7 @@ public class AccountController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AccountDto> getAccount(@PathVariable Long  id) {
+    public ResponseEntity<AccountDto> getAccount(@PathVariable String  id) {
 
 
         return ResponseEntity.ok(accountService.getAccount(id));
@@ -49,7 +48,7 @@ public class AccountController {
             return new ResponseEntity<>(errorStr, HttpStatus.BAD_REQUEST);
         } else {
 
-            Long createdId = accountService.createAccount(accountDto);
+           String createdId = accountService.createAccount(accountDto);
 
             URI uri = URI.create(
                     ServletUriComponentsBuilder
@@ -60,12 +59,12 @@ public class AccountController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAccount(@PathVariable String id) {
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AccountDto> overWriteAccount(@PathVariable Long id,@RequestBody AccountDto accountDto ) {
+    public ResponseEntity<AccountDto> overWriteAccount(@PathVariable String id,@RequestBody AccountDto accountDto ) {
 
         return ResponseEntity.ok(accountService.overWriteAccount(id, accountDto ));
 

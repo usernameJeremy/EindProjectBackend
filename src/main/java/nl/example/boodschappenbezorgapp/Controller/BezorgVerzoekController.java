@@ -13,8 +13,9 @@ import javax.validation.Valid;
 import java.net.URI;
 
 
+@CrossOrigin
 @RestController
-@RequestMapping(value = "/deliveryrequest ")
+@RequestMapping(value = "/deliveryrequests")
 public class BezorgVerzoekController {
 
 
@@ -32,7 +33,6 @@ public class BezorgVerzoekController {
 
         @GetMapping("{id}")
         public ResponseEntity<BezorgVerzoekDto> getBezorgVerzoek(@PathVariable Long  id) {
-
 
             return ResponseEntity.ok(bezorgVerzoekService.getDeliveryRequest(id));
         }

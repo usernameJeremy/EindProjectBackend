@@ -1,8 +1,7 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
-import nl.example.boodschappenbezorgapp.DTO.BezorgVerzoekDto;
+
 import nl.example.boodschappenbezorgapp.DTO.BoodschapLijstDto;
-import nl.example.boodschappenbezorgapp.Service.BezorgVerzoekService;
 import nl.example.boodschappenbezorgapp.Service.BoodschapLijstService;
 import nl.example.boodschappenbezorgapp.Utils.Utils;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "grocerylists")
 public class BoodschapLijstController {

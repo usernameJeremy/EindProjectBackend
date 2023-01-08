@@ -1,6 +1,7 @@
 package nl.example.boodschappenbezorgapp.DTO;
 
 import lombok.*;
+import nl.example.boodschappenbezorgapp.Model.User;
 
 
 @Getter
@@ -13,9 +14,11 @@ public class AccountDto {
 
     private Long id;
     private String username;
-    private String password;
     private String name;
     private String lastName;
-    private String adres;
+    private String address;
+
+    public User user;
+
 
 }

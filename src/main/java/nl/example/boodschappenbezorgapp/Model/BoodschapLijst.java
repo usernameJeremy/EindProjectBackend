@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 
 @Getter
@@ -18,14 +19,20 @@ public class BoodschapLijst {
     @Id
     @GeneratedValue
     private Long id;
+
     private String name;
     private String address;
     private String products;
     private String bezorginstructies;
     private int dateTime;
 
-    //one to one met bezorgverzoek
-    //one to one met rekening
 
+
+
+    @OneToOne(mappedBy = "grocerylist")
+    private BezorgVerzoek deliveryRequest;
+
+    @OneToOne(mappedBy = "grocerylist")
+    private Rekening rekening;
 
 }

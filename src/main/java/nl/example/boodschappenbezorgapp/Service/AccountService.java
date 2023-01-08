@@ -1,25 +1,27 @@
 package nl.example.boodschappenbezorgapp.Service;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
 import nl.example.boodschappenbezorgapp.Model.Account;
 import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 
+import nl.example.boodschappenbezorgapp.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
-
-@NoArgsConstructor
 
 
 @Service
 public class AccountService {
 
 
-    private AccountRepository accountRepository;
+    public static AccountRepository accountRepository;
+    public static UserRepository userRepository;
+    public AccountService(UserRepository userRepository, AccountRepository accountRepository ) {
+        this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
+    }
 
 
 
@@ -28,10 +30,10 @@ public class AccountService {
         AccountDto dto = new AccountDto();
 
         dto.setUsername(account.getUsername());
-        dto.setPassword(account.getPassword());
         dto.setName(account.getName());
         dto.setLastName(account.getLastName());
-        dto.setAdres(account.getAddress());
+        dto.setAddress(account.getAddress());
+        dto.setUser(account.getUser());
 
         return dto;
     }
@@ -42,27 +44,28 @@ public class AccountService {
         Account account = new Account();
 
         account.setUsername(accountDto.getUsername());
-        account.setPassword(accountDto.getPassword());
         account.setName(accountDto.getName());
         account.setLastName(accountDto.getLastName());
-        account.setAddress(accountDto.getAdres());
+        account.setAddress(accountDto.getAddress());
+        account.setUser(accountDto.getUser());
 
         return account;
     }
 
 
-    public Long createAccount(AccountDto accountDto) {
+    public String createAccount(AccountDto accountDto) {
 
         Account newAccount = new Account();
         //map DTO entity
+
         newAccount.setUsername(accountDto.getUsername());
-        newAccount.setPassword(accountDto.getPassword());
         newAccount.setName(accountDto.getName());
         newAccount.setLastName(accountDto.getLastName());
-        newAccount.setAddress(accountDto.getAdres());
+        newAccount.setAddress(accountDto.getAddress());
+        newAccount.setUser(accountDto.getUser());
 
         Account savedAccount = accountRepository.save(newAccount);
-        return savedAccount.getId();
+        return savedAccount.getUsername();
 
     }
 
@@ -78,7 +81,7 @@ public class AccountService {
         return resultList;
     }
     //ophalen 1 object
-    public AccountDto getAccount(Long id) {
+    public AccountDto getAccount(String id) {
         Optional<Account> requestedAccount = accountRepository.findById(id);
         if (requestedAccount.isEmpty()) {
             throw new RecordNotFoundException("No account found with this ID " + id);
@@ -87,7 +90,7 @@ public class AccountService {
         }
     }
     //verwijderen
-    public String deleteAccount(Long id) {
+    public String deleteAccount(String id) {
         Optional<Account> optionalAccount = accountRepository.findById(id);
         if (optionalAccount.isPresent()) {
             accountRepository.deleteById(id);
@@ -97,16 +100,15 @@ public class AccountService {
         }
     }
     //UPDATEN
-    public AccountDto overWriteAccount( Long id, AccountDto accountDto) {
+    public AccountDto overWriteAccount( String id, AccountDto accountDto) {
         Optional<Account> toOverWriteAccount = accountRepository.findById(id);
         if (toOverWriteAccount.isPresent()) {
             Account writeOverAccount = toOverWriteAccount.get();
 
-            writeOverAccount.setUsername(accountDto.getUsername());
-            writeOverAccount.setPassword(accountDto.getPassword());
             writeOverAccount.setName(accountDto.getName());
             writeOverAccount.setLastName(accountDto.getLastName());
-            writeOverAccount.setAddress(accountDto.getAdres());
+            writeOverAccount.setAddress(accountDto.getAddress());
+
 
             accountRepository.save(writeOverAccount);
 

@@ -11,8 +11,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+
+@CrossOrigin
 @RestController
-@RequestMapping(value = "/rekening/")
+@RequestMapping(value = "/bills/")
 public class RekeningController {
     private final RekeningService rekeningService;
 

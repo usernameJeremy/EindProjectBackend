@@ -1,8 +1,5 @@
 package nl.example.boodschappenbezorgapp.Config;
 
-
-
-
 import nl.example.boodschappenbezorgapp.Service.CustomUserDetailsService;
 import nl.example.boodschappenbezorgapp.filter.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
@@ -59,16 +56,32 @@ public class SpringSecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-//                .antMatchers("/**").permitAll()
+                //.antMatchers("/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/users").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST,"/users/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT,"/users/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
-                .antMatchers(HttpMethod.POST, "/accounts").permitAll()
-                .antMatchers(HttpMethod.GET,"/accounts").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/accounts/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/accounts").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET,"/accounts").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST,"/accounts/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/accounts/**").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/bills").permitAll()
+                .antMatchers(HttpMethod.GET,"/bills").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/bills/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/bills/**").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/grocerylists").permitAll()
+                .antMatchers(HttpMethod.GET,"/grocerylists").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/grocerylists/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/grocerylists/**").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/deliveryrequest").permitAll()
+                .antMatchers(HttpMethod.GET,"/deliveryrequest").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/deliveryrequest/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/deliveryrequest/**").hasRole("ADMIN")
 
                 .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()
