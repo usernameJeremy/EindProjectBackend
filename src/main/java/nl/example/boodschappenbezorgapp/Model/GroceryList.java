@@ -1,11 +1,7 @@
 package nl.example.boodschappenbezorgapp.Model;
 
 import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 @Getter
@@ -14,7 +10,7 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 
 @Entity
-public class BoodschapLijst {
+public class GroceryList {
 
     @Id
     @GeneratedValue
@@ -22,15 +18,14 @@ public class BoodschapLijst {
 
     private String name;
     private String address;
-    private String products;
     private String bezorginstructies;
     private int dateTime;
-
+    private String products;
 
 
 
     @OneToOne(mappedBy = "grocerylist")
-    private BezorgVerzoek deliveryRequest;
+    private DeliveryRequest deliveryRequest;
 
     @OneToOne(mappedBy = "grocerylist")
     private Rekening rekening;

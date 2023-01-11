@@ -1,7 +1,7 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
-import nl.example.boodschappenbezorgapp.DTO.BezorgVerzoekDto;
-import nl.example.boodschappenbezorgapp.Service.BezorgVerzoekService;
+import nl.example.boodschappenbezorgapp.DTO.DeliveryRequestDto;
+import nl.example.boodschappenbezorgapp.Service.DeliveryRequestService;
 import nl.example.boodschappenbezorgapp.Utils.Utils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,29 +16,29 @@ import java.net.URI;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/deliveryrequests")
-public class BezorgVerzoekController {
+public class DeliveryRequestController {
 
 
-        private final BezorgVerzoekService bezorgVerzoekService;
+        private final DeliveryRequestService bezorgVerzoekService;
 
-        public BezorgVerzoekController(BezorgVerzoekService bezorgVerzoekService) {
+        public DeliveryRequestController(DeliveryRequestService bezorgVerzoekService) {
             this.bezorgVerzoekService = bezorgVerzoekService;
         }
 
         @GetMapping("")
-        public ResponseEntity<Iterable<BezorgVerzoekDto>> getAllBezorgVerzoek() {
+        public ResponseEntity<Iterable<DeliveryRequestDto>> getAllBezorgVerzoek() {
 
             return ResponseEntity.ok(bezorgVerzoekService.getAllDeliveryRequests());
         }
 
         @GetMapping("{id}")
-        public ResponseEntity<BezorgVerzoekDto> getBezorgVerzoek(@PathVariable Long  id) {
+        public ResponseEntity<DeliveryRequestDto> getBezorgVerzoek(@PathVariable Long  id) {
 
             return ResponseEntity.ok(bezorgVerzoekService.getDeliveryRequest(id));
         }
 
         @PostMapping("")
-        public ResponseEntity<String> createBezorgVerzoek(@Valid @RequestBody BezorgVerzoekDto bezorgVerzoekDto, BindingResult br) {
+        public ResponseEntity<String> createBezorgVerzoek(@Valid @RequestBody DeliveryRequestDto bezorgVerzoekDto, BindingResult br) {
 
             if (br.hasErrors()) {
 
@@ -62,7 +62,7 @@ public class BezorgVerzoekController {
         }
 
         @PutMapping("{id}")
-        public ResponseEntity<BezorgVerzoekDto> overWriteBezorgVerzoek(@PathVariable Long id,@RequestBody BezorgVerzoekDto bezorgVerzoekDto ) {
+        public ResponseEntity<DeliveryRequestDto> overWriteBezorgVerzoek(@PathVariable Long id, @RequestBody DeliveryRequestDto bezorgVerzoekDto ) {
 
             return ResponseEntity.ok(bezorgVerzoekService.overWriteDeliveryRequest(id, bezorgVerzoekDto ));
 

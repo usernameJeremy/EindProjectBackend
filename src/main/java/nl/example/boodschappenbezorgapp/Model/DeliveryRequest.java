@@ -1,6 +1,8 @@
 package nl.example.boodschappenbezorgapp.Model;
 
 import lombok.*;
+import nl.example.boodschappenbezorgapp.Enum.DeleveryReqeustEnum;
+
 import javax.persistence.*;
 
 
@@ -11,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 
-public class BezorgVerzoek {
+public class DeliveryRequest {
 
 
 
@@ -23,7 +25,7 @@ public class BezorgVerzoek {
     private String BezorgInstructies;
     private int dateOfDelivery;
     private String BezorgVerzoek;
-    private boolean bezorgd;
+    private DeleveryReqeustEnum requestStatus;
 
 
 
@@ -31,5 +33,5 @@ public class BezorgVerzoek {
     private Account account;
 
     @OneToOne
-    private BoodschapLijst grocerylist;
+    private GroceryList grocerylist;
 }

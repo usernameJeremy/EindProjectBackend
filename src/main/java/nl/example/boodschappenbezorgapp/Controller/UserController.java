@@ -1,18 +1,15 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
-import nl.example.boodschappenbezorgapp.DTO.AccountDto;
+
 import nl.example.boodschappenbezorgapp.DTO.UserDto;
 import nl.example.boodschappenbezorgapp.Exceptions.BadRequestException;
-import nl.example.boodschappenbezorgapp.Model.Account;
 import nl.example.boodschappenbezorgapp.Service.AccountService;
 import nl.example.boodschappenbezorgapp.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -92,17 +89,7 @@ public class UserController {
             throw new BadRequestException();
         }
     }
-//    @PostMapping(value = "/{username}/accounts")
-//    public ResponseEntity<Class<Account>> addUserAccount(@PathVariable("username") String username, @RequestBody String name, String lastName, String address) {
-//        try {
-//
-//            userService.addAccount(username, name, lastName, address);
-//            return ResponseEntity.noContent().build();
-//        }
-//        catch (Exception ex) {
-//            throw new BadRequestException();
-//        }
-//    }
+
 
     @DeleteMapping(value = "/{username}/authorities/{authority}")
     public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {

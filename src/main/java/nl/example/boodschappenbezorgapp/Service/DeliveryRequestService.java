@@ -1,10 +1,10 @@
 package nl.example.boodschappenbezorgapp.Service;
 
 import lombok.NoArgsConstructor;
-import nl.example.boodschappenbezorgapp.DTO.BezorgVerzoekDto;
+import nl.example.boodschappenbezorgapp.DTO.DeliveryRequestDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
-import nl.example.boodschappenbezorgapp.Model.BezorgVerzoek;
-import nl.example.boodschappenbezorgapp.Repository.BezorgVerzoekRepository;
+import nl.example.boodschappenbezorgapp.Model.DeliveryRequest;
+import nl.example.boodschappenbezorgapp.Repository.DeliveryRequestRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,72 +12,71 @@ import java.util.Optional;
 @NoArgsConstructor
 
 @Service
-public class BezorgVerzoekService {
+public class DeliveryRequestService {
 
-        private BezorgVerzoekRepository bezorgVerzoekRepository;
+        private DeliveryRequestRepository bezorgVerzoekRepository;
 
 
 
-        public BezorgVerzoekDto transferToDto (BezorgVerzoek bezorgVerzoek) {
+        public DeliveryRequestDto transferToDto (DeliveryRequest bezorgVerzoek) {
 
-            BezorgVerzoekDto dto = new BezorgVerzoekDto();
+            DeliveryRequestDto dto = new DeliveryRequestDto();
 
             dto.setId(bezorgVerzoek.getId());
             dto.setSupermarkt(bezorgVerzoek.getSupermarkt());
             dto.setBezorgInstructies(bezorgVerzoek.getBezorgInstructies());
             dto.setDateOfDelivery(bezorgVerzoek.getDateOfDelivery());
             dto.setBezorgVerzoek(bezorgVerzoek.getBezorgVerzoek());
-            dto.setBezorgd(bezorgVerzoek.isBezorgd());
 
             return dto;
         }
 
-        public BezorgVerzoek transferFromDto (BezorgVerzoekDto bezorgVerzoekDto) {
+        public DeliveryRequest transferFromDto (DeliveryRequestDto bezorgVerzoekDto) {
 
 
-            BezorgVerzoek bezorgVerzoek = new BezorgVerzoek();
+            DeliveryRequest bezorgVerzoek = new DeliveryRequest();
 
             bezorgVerzoek.setId(bezorgVerzoekDto.getId());
             bezorgVerzoek.setSupermarkt(bezorgVerzoekDto.getSupermarkt());
             bezorgVerzoek.setBezorgInstructies(bezorgVerzoekDto.getBezorgInstructies());
             bezorgVerzoek.setDateOfDelivery(bezorgVerzoekDto.getDateOfDelivery());
             bezorgVerzoek.setBezorgVerzoek(bezorgVerzoekDto.getBezorgVerzoek());
-            bezorgVerzoek.setBezorgd(bezorgVerzoekDto.isBezorgd());
+
 
             return bezorgVerzoek;
         }
 
 
-        public Long createBezorgVerzoek(BezorgVerzoekDto bezorgVerzoekDto) {
+        public Long createBezorgVerzoek(DeliveryRequestDto bezorgVerzoekDto) {
 
-            BezorgVerzoek newBezorgVerzoek = new BezorgVerzoek();
-            //map DTO entity
+            DeliveryRequest newBezorgVerzoek = new DeliveryRequest();
+
             newBezorgVerzoek.setId(bezorgVerzoekDto.getId());
             newBezorgVerzoek.setSupermarkt(bezorgVerzoekDto.getSupermarkt());
             newBezorgVerzoek.setBezorgInstructies(bezorgVerzoekDto.getBezorgInstructies());
             newBezorgVerzoek.setDateOfDelivery(bezorgVerzoekDto.getDateOfDelivery());
             newBezorgVerzoek.setBezorgVerzoek(bezorgVerzoekDto.getBezorgVerzoek());
-            newBezorgVerzoek.setBezorgd(bezorgVerzoekDto.isBezorgd());
 
-            BezorgVerzoek savedBezorgVerzoek = bezorgVerzoekRepository.save(newBezorgVerzoek);
+
+            DeliveryRequest savedBezorgVerzoek = bezorgVerzoekRepository.save(newBezorgVerzoek);
             return savedBezorgVerzoek.getId();
 
         }
 
-        public Iterable<BezorgVerzoekDto> getAllDeliveryRequests() {
+        public Iterable<DeliveryRequestDto> getAllDeliveryRequests() {
 
-            Iterable<BezorgVerzoek> allDeliveryRequest = bezorgVerzoekRepository.findAll();
+            Iterable<DeliveryRequest> allDeliveryRequest = bezorgVerzoekRepository.findAll();
 
-            ArrayList<BezorgVerzoekDto> resultList = new ArrayList<>();
+            ArrayList<DeliveryRequestDto> resultList = new ArrayList<>();
 
-            for (BezorgVerzoek t : allDeliveryRequest) {
+            for (DeliveryRequest t : allDeliveryRequest) {
                 resultList.add(transferToDto(t));
             }
             return resultList;
         }
         //ophalen 1 object
-        public BezorgVerzoekDto getDeliveryRequest(Long id) {
-            Optional<BezorgVerzoek> requestedBezorgVerzoek = bezorgVerzoekRepository.findById(id);
+        public DeliveryRequestDto getDeliveryRequest(Long id) {
+            Optional<DeliveryRequest> requestedBezorgVerzoek = bezorgVerzoekRepository.findById(id);
             if (requestedBezorgVerzoek.isEmpty()) {
                 throw new RecordNotFoundException("No delivery request found with this ID: " + id);
             } else {
@@ -86,7 +85,7 @@ public class BezorgVerzoekService {
         }
         //verwijderen
         public String deleteDeliveryRequest(Long id) {
-            Optional<BezorgVerzoek> optionalBezorgVerzoekt = bezorgVerzoekRepository.findById(id);
+            Optional<DeliveryRequest> optionalBezorgVerzoekt = bezorgVerzoekRepository.findById(id);
             if (optionalBezorgVerzoekt.isPresent()) {
                 bezorgVerzoekRepository.deleteById(id);
                 return "Delivery Request With " + id + " removed";
@@ -95,23 +94,23 @@ public class BezorgVerzoekService {
             }
         }
         //UPDATEN
-        public BezorgVerzoekDto overWriteDeliveryRequest( Long id, BezorgVerzoekDto bezorgVerzoekDto) {
-            Optional<BezorgVerzoek> toOverWriteBezorgVerzoek = bezorgVerzoekRepository.findById(id);
+        public DeliveryRequestDto overWriteDeliveryRequest(Long id, DeliveryRequestDto bezorgVerzoekDto) {
+            Optional<DeliveryRequest> toOverWriteBezorgVerzoek = bezorgVerzoekRepository.findById(id);
             if (toOverWriteBezorgVerzoek.isPresent()) {
-                BezorgVerzoek writeOverDeliveryRequest = toOverWriteBezorgVerzoek.get();
+                DeliveryRequest writeOverDeliveryRequest = toOverWriteBezorgVerzoek.get();
 
                 writeOverDeliveryRequest.setId(bezorgVerzoekDto.getId());
                 writeOverDeliveryRequest.setSupermarkt(bezorgVerzoekDto.getSupermarkt());
                 writeOverDeliveryRequest.setBezorgInstructies(bezorgVerzoekDto.getBezorgInstructies());
                 writeOverDeliveryRequest.setDateOfDelivery(bezorgVerzoekDto.getDateOfDelivery());
                 writeOverDeliveryRequest.setBezorgVerzoek(bezorgVerzoekDto.getBezorgVerzoek());
-                writeOverDeliveryRequest.setBezorgd(bezorgVerzoekDto.isBezorgd());
+
 
                 bezorgVerzoekRepository.save(writeOverDeliveryRequest);
 
                 return transferToDto(writeOverDeliveryRequest);
             }else {
-                throw new RecordNotFoundException("Account with ID: " + id + " doesn't exist or is not found");
+                throw new RecordNotFoundException("Leverings verzoek met ID: " + id + " bestaat niet of is niet gevonden");
             }
         }
     }

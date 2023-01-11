@@ -12,7 +12,7 @@ import nl.example.boodschappenbezorgapp.Model.User;
 
 public class AccountDto {
 
-    private Long id;
+
     private String username;
     private String name;
     private String lastName;

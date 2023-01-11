@@ -1,43 +1,43 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
 
-import nl.example.boodschappenbezorgapp.DTO.BoodschapLijstDto;
-import nl.example.boodschappenbezorgapp.Service.BoodschapLijstService;
+import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
+import nl.example.boodschappenbezorgapp.Service.GroceryListService;
 import nl.example.boodschappenbezorgapp.Utils.Utils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "grocerylists")
-public class BoodschapLijstController {
-    private final BoodschapLijstService boodschapLijstService;
+@RequestMapping(value = "/grocerylists")
+public class GroceryListController {
+    private final GroceryListService boodschapLijstService;
 
-    public BoodschapLijstController(BoodschapLijstService boodschapLijstService) {
+
+
+    public GroceryListController(GroceryListService boodschapLijstService) {
         this.boodschapLijstService = boodschapLijstService;
     }
 
     @GetMapping("")
-    public ResponseEntity<Iterable<BoodschapLijstDto>> getAllgroceryLists() {
+    public ResponseEntity<Iterable<GroceryListDto>> getAllgroceryLists() {
 
         return ResponseEntity.ok(boodschapLijstService.getAllGroceryLists());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<BoodschapLijstDto> getGroceryList(@PathVariable Long  id) {
+    public ResponseEntity<GroceryListDto> getGroceryList(@PathVariable Long  id) {
 
 
         return ResponseEntity.ok(boodschapLijstService.getGroceryList(id));
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createBoodschapLijst(@Valid @RequestBody BoodschapLijstDto boodschapLijstDto, BindingResult br) {
+    public ResponseEntity<String> createBoodschapLijst(@Valid @RequestBody GroceryListDto boodschapLijstDto, BindingResult br) {
 
         if (br.hasErrors()) {
 
@@ -51,7 +51,7 @@ public class BoodschapLijstController {
                     ServletUriComponentsBuilder
                             .fromCurrentContextPath()
                             .path("/grocerylists/" + createdId).toUriString());
-            return ResponseEntity.created(uri).body("grocerylists Lijst created!");
+            return ResponseEntity.created(uri).body("Boodschappen Lijst aangemaakt!");
         }
     }
 
@@ -61,7 +61,7 @@ public class BoodschapLijstController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<BoodschapLijstDto> overWriteBoodschapLijst(@PathVariable Long id,@RequestBody BoodschapLijstDto boodschapLijstDto ) {
+    public ResponseEntity<GroceryListDto> overWriteBoodschapLijst(@PathVariable Long id, @RequestBody GroceryListDto boodschapLijstDto ) {
 
         return ResponseEntity.ok(boodschapLijstService.overWriteGroceryList(id, boodschapLijstDto ));
 

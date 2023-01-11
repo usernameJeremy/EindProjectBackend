@@ -2,12 +2,9 @@ package nl.example.boodschappenbezorgapp.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import nl.example.boodschappenbezorgapp.DTO.BoodschapLijstDto;
 import nl.example.boodschappenbezorgapp.DTO.RekeningDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
-import nl.example.boodschappenbezorgapp.Model.BoodschapLijst;
 import nl.example.boodschappenbezorgapp.Model.Rekening;
-import nl.example.boodschappenbezorgapp.Repository.BoodschaplijstRepository;
 import nl.example.boodschappenbezorgapp.Repository.RekeningRepository;
 import org.springframework.stereotype.Service;
 

@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 
-public class BezorgVerzoekDto {
+public class DeliveryRequestDto {
 
     private Long id;
 

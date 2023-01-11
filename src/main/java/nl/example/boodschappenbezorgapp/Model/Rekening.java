@@ -29,5 +29,5 @@ public class Rekening {
 
 
     @OneToOne
-    private BoodschapLijst grocerylist;
+    private GroceryList grocerylist;
 }

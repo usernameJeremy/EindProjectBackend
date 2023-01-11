@@ -1,13 +1,9 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
-import lombok.*;
 import nl.example.boodschappenbezorgapp.Model.FileDB;
 import nl.example.boodschappenbezorgapp.Service.FileStorageService;
-import nl.example.boodschappenbezorgapp.messages.ResponseFile;
-import nl.example.boodschappenbezorgapp.messages.ResponseMessage;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import nl.example.boodschappenbezorgapp.messages.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,15 +11,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
-@AllArgsConstructor
-
     @Controller
-    @CrossOrigin
+    @CrossOrigin("*")
     public class FileController {
 
-
         private FileStorageService storageService;
+
+        public FileController(FileStorageService storageService) {
+            this.storageService = storageService;
+        }
 
         @PostMapping("/upload")
         public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {

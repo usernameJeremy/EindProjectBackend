@@ -1,27 +1,30 @@
 package nl.example.boodschappenbezorgapp.Service;
 
-import lombok.NoArgsConstructor;
-import nl.example.boodschappenbezorgapp.DTO.BoodschapLijstDto;
+import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
-import nl.example.boodschappenbezorgapp.Model.BoodschapLijst;
-import nl.example.boodschappenbezorgapp.Repository.BoodschaplijstRepository;
+import nl.example.boodschappenbezorgapp.Model.GroceryList;
+import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 
-@NoArgsConstructor
+
+
+
 @Service
-public class BoodschapLijstService {
+public class GroceryListService {
 
 
-        private BoodschaplijstRepository boodschaplijstRepository;
+        private GroceryListRepository groceryListRepository;
+
+    public GroceryListService(GroceryListRepository groceryListRepository) {
+        this.groceryListRepository = groceryListRepository;
+    }
 
 
-        public BoodschapLijstDto transferToDto (BoodschapLijst boodschapLijst) {
+    public GroceryListDto transferToDto (GroceryList boodschapLijst) {
 
-        BoodschapLijstDto dto = new BoodschapLijstDto();
+        GroceryListDto dto = new GroceryListDto();
 
         dto.setId(boodschapLijst.getId());
         dto.setName(boodschapLijst.getName());
@@ -30,56 +33,52 @@ public class BoodschapLijstService {
         dto.setBezorginstructies(boodschapLijst.getBezorginstructies());
         dto.setDateTime(boodschapLijst.getDateTime());
 
-
         return dto;
     }
 
-        public BoodschapLijst transferFromDto (BoodschapLijstDto boodschaplijstDto) {
+        public GroceryList transferFromDto (GroceryListDto boodschaplijstDto) {
 
+        GroceryList boodschapLijst = new GroceryList();
 
-        BoodschapLijst boodschapLijst = new BoodschapLijst();
-
-        boodschapLijst.setId(boodschaplijstDto.getId());
         boodschapLijst.setName(boodschaplijstDto.getName());
         boodschapLijst.setAddress(boodschaplijstDto.getAddress());
-        boodschapLijst.setProducts(boodschaplijstDto.getProducts());
         boodschapLijst.setBezorginstructies(boodschaplijstDto.getBezorginstructies());
         boodschapLijst.setDateTime(boodschaplijstDto.getDateTime());
+        boodschapLijst.setProducts(boodschaplijstDto.getProducts());
 
         return boodschapLijst;
     }
 
 
-        public Long createGroceryList(BoodschapLijstDto boodschapLijstDto) {
+        public Long createGroceryList(GroceryListDto boodschapLijstDto) {
 
-            BoodschapLijst newGroceryLists = new BoodschapLijst();
+            GroceryList newGroceryLists = new GroceryList();
         //map DTO entity
-            newGroceryLists.setId(boodschapLijstDto.getId());
             newGroceryLists.setName(boodschapLijstDto.getName());
             newGroceryLists.setAddress(boodschapLijstDto.getAddress());
             newGroceryLists.setProducts(boodschapLijstDto.getProducts());
             newGroceryLists.setBezorginstructies(boodschapLijstDto.getBezorginstructies());
             newGroceryLists.setDateTime(boodschapLijstDto.getDateTime());
 
-            BoodschapLijst savedGroceryList = boodschaplijstRepository.save(newGroceryLists);
+            GroceryList savedGroceryList = groceryListRepository.save(newGroceryLists);
         return savedGroceryList.getId();
 
     }
 
-        public Iterable<BoodschapLijstDto> getAllGroceryLists() {
+        public Iterable<GroceryListDto> getAllGroceryLists() {
 
-        Iterable<BoodschapLijst> allGroceryLists = boodschaplijstRepository.findAll();
+        Iterable<GroceryList> allGroceryLists = groceryListRepository.findAll();
 
-        ArrayList<BoodschapLijstDto> resultList = new ArrayList<>();
+        ArrayList<GroceryListDto> resultList = new ArrayList<>();
 
-        for (BoodschapLijst t : allGroceryLists) {
+        for (GroceryList t : allGroceryLists) {
             resultList.add(transferToDto(t));
         }
         return resultList;
     }
         //ophalen 1 object
-        public BoodschapLijstDto getGroceryList(Long id) {
-        Optional<BoodschapLijst> requestedGroceryList = boodschaplijstRepository.findById(id);
+        public GroceryListDto getGroceryList(Long id) {
+        Optional<GroceryList> requestedGroceryList = groceryListRepository.findById(id);
         if (requestedGroceryList.isEmpty()) {
             throw new RecordNotFoundException("No Grocery List found with this ID: " + id);
         } else {
@@ -88,19 +87,19 @@ public class BoodschapLijstService {
     }
         //verwijderen
         public String deleteGroceryList(Long id) {
-        Optional<BoodschapLijst> optionalGroceryList = boodschaplijstRepository.findById(id);
+        Optional<GroceryList> optionalGroceryList = groceryListRepository.findById(id);
         if (optionalGroceryList.isPresent()) {
-            boodschaplijstRepository.deleteById(id);
+            groceryListRepository.deleteById(id);
             return "Grocery list with " + id + " removed";
         } else {
             throw new RecordNotFoundException(" no GroceryList Request found with ID " + id);
         }
     }
         //UPDATEN
-        public BoodschapLijstDto overWriteGroceryList( Long id, BoodschapLijstDto boodschapLijstDto) {
-        Optional<BoodschapLijst> toOverWriteGroceryList = boodschaplijstRepository.findById(id);
+        public GroceryListDto overWriteGroceryList(Long id, GroceryListDto boodschapLijstDto) {
+        Optional<GroceryList> toOverWriteGroceryList = groceryListRepository.findById(id);
         if (toOverWriteGroceryList.isPresent()) {
-            BoodschapLijst writeOverGroceryList = toOverWriteGroceryList.get();
+            GroceryList writeOverGroceryList = toOverWriteGroceryList.get();
 
             writeOverGroceryList.setId(boodschapLijstDto.getId());
             writeOverGroceryList.setName(boodschapLijstDto.getName());
@@ -109,7 +108,7 @@ public class BoodschapLijstService {
             writeOverGroceryList.setBezorginstructies(boodschapLijstDto.getBezorginstructies());
             writeOverGroceryList.setDateTime(boodschapLijstDto.getDateTime());
 
-            boodschaplijstRepository.save(writeOverGroceryList);
+            groceryListRepository.save(writeOverGroceryList);
 
             return transferToDto(writeOverGroceryList);
         }else {

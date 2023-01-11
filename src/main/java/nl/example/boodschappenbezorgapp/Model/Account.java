@@ -25,7 +25,7 @@ public class Account{
     private String address;
 
     @OneToMany(mappedBy = "account")
-    private List<BezorgVerzoek> bezorgVerzoek;
+    private List<DeliveryRequest> bezorgVerzoek;
 
     @OneToOne(
             targetEntity = User.class,

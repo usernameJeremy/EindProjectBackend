@@ -56,7 +56,7 @@ public class SpringSecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-                //.antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET,"/users").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST,"/users/**").hasAnyRole("ADMIN", "USER")
@@ -82,6 +82,11 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/deliveryrequest").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/deliveryrequest/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/deliveryrequest/**").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/upload").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.GET,"/files").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST,"/files/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/audiofiles/**").hasRole("ADMIN")
 
                 .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()
