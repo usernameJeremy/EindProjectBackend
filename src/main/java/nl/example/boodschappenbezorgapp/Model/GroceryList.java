@@ -1,6 +1,8 @@
 package nl.example.boodschappenbezorgapp.Model;
 
 import lombok.*;
+import nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum;
+
 import javax.persistence.*;
 
 
@@ -12,22 +14,26 @@ import javax.persistence.*;
 @Entity
 public class GroceryList {
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private String name;
+    @Id
     private String address;
     private String bezorginstructies;
     private int dateTime;
     private String products;
 
+    @Enumerated(EnumType.STRING)
+    private DeliveryRequestEnum status;
+
 
 
     @OneToOne(mappedBy = "grocerylist")
-    private DeliveryRequest deliveryRequest;
+    private Delivery deliveryRequest;
 
     @OneToOne(mappedBy = "grocerylist")
-    private Rekening rekening;
+    private Invoice rekening;
 
+
+    public void setDelivery(Delivery delivery) {
+    }
 }

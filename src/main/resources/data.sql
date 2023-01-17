@@ -12,7 +12,3 @@ INSERT INTO accounts (username, name, last_name, address) VALUES ('silas','silas
 INSERT INTO accounts (username, name, last_name, address) VALUES ('bobby','bobby','Thonnetje','De Wallen 4');
 INSERT INTO accounts (username, name, last_name, address) VALUES ('admin','bassie','adriaan','fantasieland');
 
--- INSERT INTO grocerylists (id, name, address, products , bezorginstructies, date_time) VALUES (1,'bas','veelste dure wijk 1','vodka cola zero banaan','breng maar naar de zolderkamer',1015);
--- INSERT INTO grocerylists (id, name, address, products , bezorginstructies, date_time) VALUES (2,'jerry','achterstand wijk 2','1 bakje goesting','insert into mind', 0700);
--- INSERT INTO grocerylists (id, name, address, products , bezorginstructies, date_time) VALUES (3,'silas','Bijlmer 5','sour tangie','roll into paper', 0420);
--- INSERT INTO grocerylists (id, name, address, products , bezorginstructies, date_time) VALUES (4,'bobby','De Wallen 4','een broodje van de slager','ik loop er zelf wel om', 1600);

@@ -1,7 +1,7 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
 import nl.example.boodschappenbezorgapp.DTO.RekeningDto;
-import nl.example.boodschappenbezorgapp.Service.RekeningService;
+import nl.example.boodschappenbezorgapp.Service.InvoiceService;
 import nl.example.boodschappenbezorgapp.Utils.Utils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = "/bills/")
 public class RekeningController {
-    private final RekeningService rekeningService;
+    private final InvoiceService rekeningService;
 
-    public RekeningController(RekeningService rekeningService) {
+    public RekeningController(InvoiceService rekeningService) {
         this.rekeningService = rekeningService;
     }
 

@@ -2,66 +2,48 @@ package nl.example.boodschappenbezorgapp.Service;
 
 import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
+import nl.example.boodschappenbezorgapp.Model.Delivery;
 import nl.example.boodschappenbezorgapp.Model.GroceryList;
+import nl.example.boodschappenbezorgapp.Repository.DeliveryRepository;
 import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
 import org.springframework.stereotype.Service;
 import java.util.*;
-
-
-
+import static nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum.*;
 
 
 @Service
 public class GroceryListService {
 
+        private static GroceryListRepository groceryListRepository;
+        static DeliveryRepository deliveryRequestRepository;
+        private DeliveryService deliveryService;
 
-        private GroceryListRepository groceryListRepository;
-
-    public GroceryListService(GroceryListRepository groceryListRepository) {
+    public GroceryListService(GroceryListRepository groceryListRepository, DeliveryRepository deliveryRequestRepository, DeliveryService deliveryService) {
         this.groceryListRepository = groceryListRepository;
+        this.deliveryRequestRepository = deliveryRequestRepository;
+        this.deliveryService = deliveryService;
     }
 
-
-    public GroceryListDto transferToDto (GroceryList boodschapLijst) {
-
-        GroceryListDto dto = new GroceryListDto();
-
-        dto.setId(boodschapLijst.getId());
-        dto.setName(boodschapLijst.getName());
-        dto.setAddress(boodschapLijst.getAddress());
-        dto.setProducts(boodschapLijst.getProducts());
-        dto.setBezorginstructies(boodschapLijst.getBezorginstructies());
-        dto.setDateTime(boodschapLijst.getDateTime());
-
-        return dto;
-    }
-
-        public GroceryList transferFromDto (GroceryListDto boodschaplijstDto) {
-
-        GroceryList boodschapLijst = new GroceryList();
-
-        boodschapLijst.setName(boodschaplijstDto.getName());
-        boodschapLijst.setAddress(boodschaplijstDto.getAddress());
-        boodschapLijst.setBezorginstructies(boodschaplijstDto.getBezorginstructies());
-        boodschapLijst.setDateTime(boodschaplijstDto.getDateTime());
-        boodschapLijst.setProducts(boodschaplijstDto.getProducts());
-
-        return boodschapLijst;
-    }
-
-
-        public Long createGroceryList(GroceryListDto boodschapLijstDto) {
+        public String createGroceryList(GroceryListDto boodschapLijstDto) {
 
             GroceryList newGroceryLists = new GroceryList();
-        //map DTO entity
+
             newGroceryLists.setName(boodschapLijstDto.getName());
             newGroceryLists.setAddress(boodschapLijstDto.getAddress());
             newGroceryLists.setProducts(boodschapLijstDto.getProducts());
             newGroceryLists.setBezorginstructies(boodschapLijstDto.getBezorginstructies());
             newGroceryLists.setDateTime(boodschapLijstDto.getDateTime());
+            newGroceryLists.setStatus(AVAILABLE);
 
-            GroceryList savedGroceryList = groceryListRepository.save(newGroceryLists);
-        return savedGroceryList.getId();
+            groceryListRepository.save(newGroceryLists);
+
+            Delivery newDelivery = new Delivery(newGroceryLists.getAddress(), newGroceryLists.getStatus(), newGroceryLists);
+            deliveryRequestRepository.save(newDelivery);
+
+            assigGroceryListToDelivery(newDelivery.getAddress(), newGroceryLists.getAddress());
+            groceryListRepository.save(newGroceryLists);
+
+        return newGroceryLists.getAddress();
 
     }
 
@@ -77,7 +59,7 @@ public class GroceryListService {
         return resultList;
     }
         //ophalen 1 object
-        public GroceryListDto getGroceryList(Long id) {
+        public GroceryListDto getGroceryList(String id) {
         Optional<GroceryList> requestedGroceryList = groceryListRepository.findById(id);
         if (requestedGroceryList.isEmpty()) {
             throw new RecordNotFoundException("No Grocery List found with this ID: " + id);
@@ -86,7 +68,7 @@ public class GroceryListService {
         }
     }
         //verwijderen
-        public String deleteGroceryList(Long id) {
+        public String deleteGroceryList(String id) {
         Optional<GroceryList> optionalGroceryList = groceryListRepository.findById(id);
         if (optionalGroceryList.isPresent()) {
             groceryListRepository.deleteById(id);
@@ -96,12 +78,11 @@ public class GroceryListService {
         }
     }
         //UPDATEN
-        public GroceryListDto overWriteGroceryList(Long id, GroceryListDto boodschapLijstDto) {
+        public GroceryListDto overWriteGroceryList(String id, GroceryListDto boodschapLijstDto) {
         Optional<GroceryList> toOverWriteGroceryList = groceryListRepository.findById(id);
         if (toOverWriteGroceryList.isPresent()) {
             GroceryList writeOverGroceryList = toOverWriteGroceryList.get();
 
-            writeOverGroceryList.setId(boodschapLijstDto.getId());
             writeOverGroceryList.setName(boodschapLijstDto.getName());
             writeOverGroceryList.setAddress(boodschapLijstDto.getAddress());
             writeOverGroceryList.setProducts(boodschapLijstDto.getProducts());
@@ -115,6 +96,52 @@ public class GroceryListService {
             throw new RecordNotFoundException("Grocery list with ID: " + id + " doesn't exist or is not found");
         }
     }
+    public GroceryListDto transferToDto (GroceryList boodschapLijst) {
+
+        GroceryListDto dto = new GroceryListDto();
+
+
+        dto.setName(boodschapLijst.getName());
+        dto.setAddress(boodschapLijst.getAddress());
+        dto.setProducts(boodschapLijst.getProducts());
+        dto.setBezorginstructies(boodschapLijst.getBezorginstructies());
+        dto.setDateTime(boodschapLijst.getDateTime());
+        dto.setStatus(boodschapLijst.getStatus());
+
+
+        return dto;
+    }
+
+    public GroceryList transferFromDto (GroceryListDto boodschaplijstDto) {
+
+        GroceryList boodschapLijst = new GroceryList();
+
+        boodschapLijst.setName(boodschaplijstDto.getName());
+        boodschapLijst.setAddress(boodschaplijstDto.getAddress());
+        boodschapLijst.setBezorginstructies(boodschaplijstDto.getBezorginstructies());
+        boodschapLijst.setDateTime(boodschaplijstDto.getDateTime());
+        boodschapLijst.setProducts(boodschaplijstDto.getProducts());
+        boodschapLijst.setStatus(boodschaplijstDto.getStatus());
+        if (boodschapLijst.getDeliveryRequest() == null){
+            boodschapLijst.setDelivery(boodschapLijst.getDeliveryRequest());
+        }
+
+        return boodschapLijst;
+    }
+
+    public static void assigGroceryListToDelivery(String id, String deliveryId) {
+        Optional<GroceryList> optionalGroceryList = groceryListRepository.findById(id);
+        Optional<Delivery> optionalDelivery = deliveryRequestRepository.findById(deliveryId);
+        if (optionalGroceryList.isPresent() && optionalDelivery.isPresent()) {
+            GroceryList groceryList = optionalGroceryList.get();
+            Delivery delivery = optionalDelivery.get();
+            groceryList.setDelivery(delivery);
+            groceryListRepository.save(groceryList);
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
     }
 
 

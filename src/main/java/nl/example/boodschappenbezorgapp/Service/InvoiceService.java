@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import nl.example.boodschappenbezorgapp.DTO.RekeningDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
-import nl.example.boodschappenbezorgapp.Model.Rekening;
+import nl.example.boodschappenbezorgapp.Model.Invoice;
 import nl.example.boodschappenbezorgapp.Repository.RekeningRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +14,14 @@ import java.util.Optional;
 @AllArgsConstructor
 
 @Service
-public class RekeningService {
+public class InvoiceService {
 
 
     private RekeningRepository rekeningRepository;
 
 
 
-    public RekeningDto transferToDto (Rekening rekening) {
+    public RekeningDto transferToDto (Invoice rekening) {
 
         RekeningDto dto = new RekeningDto();
 
@@ -35,10 +35,10 @@ public class RekeningService {
         return dto;
     }
 
-    public Rekening transferFromDto (RekeningDto rekeningDto) {
+    public Invoice transferFromDto (RekeningDto rekeningDto) {
 
 
-        Rekening rekening = new Rekening();
+        Invoice rekening = new Invoice();
 
         rekening.setId(rekeningDto.getId());
         rekening.setProducts(rekeningDto.getProducts());
@@ -53,7 +53,7 @@ public class RekeningService {
 
     public Long createBill(RekeningDto rekeningDto) {
 
-        Rekening newBill = new Rekening();
+        Invoice newBill = new Invoice();
         //map DTO entity
         newBill.setId(rekeningDto.getId());
         newBill.setProducts(rekeningDto.getProducts());
@@ -62,25 +62,25 @@ public class RekeningService {
         newBill.setDeliveryAddress(rekeningDto.getDeliveryAddress());
         newBill.setTotalAmount(rekeningDto.getTotalAmount());
 
-        Rekening savedBill = rekeningRepository.save(newBill);
+        Invoice savedBill = rekeningRepository.save(newBill);
         return savedBill.getId();
 
     }
 
     public Iterable<RekeningDto> getAllBills() {
 
-        Iterable<Rekening> allBills = rekeningRepository.findAll();
+        Iterable<Invoice> allBills = rekeningRepository.findAll();
 
         ArrayList<RekeningDto> resultList = new ArrayList<>();
 
-        for (Rekening t : allBills) {
+        for (Invoice t : allBills) {
             resultList.add(transferToDto(t));
         }
         return resultList;
     }
     //ophalen 1 object
     public RekeningDto getBill(Long id) {
-        Optional<Rekening> requestedBill = rekeningRepository.findById(id);
+        Optional<Invoice> requestedBill = rekeningRepository.findById(id);
         if (requestedBill.isEmpty()) {
             throw new RecordNotFoundException("No Bill found with this ID: " + id);
         } else {
@@ -89,7 +89,7 @@ public class RekeningService {
     }
     //verwijderen
     public String deleteBill(Long id) {
-        Optional<Rekening> optionalBill = rekeningRepository.findById(id);
+        Optional<Invoice> optionalBill = rekeningRepository.findById(id);
         if (optionalBill.isPresent()) {
             rekeningRepository.deleteById(id);
             return "Bill with " + id + " removed";
@@ -99,9 +99,9 @@ public class RekeningService {
     }
     //UPDATEN
     public RekeningDto overWriteBill( Long id, RekeningDto rekeningDto) {
-        Optional<Rekening> toOverWriteBill = rekeningRepository.findById(id);
+        Optional<Invoice> toOverWriteBill = rekeningRepository.findById(id);
         if (toOverWriteBill.isPresent()) {
-            Rekening writeOverBill = toOverWriteBill.get();
+            Invoice writeOverBill = toOverWriteBill.get();
 
             writeOverBill.setId(rekeningDto.getId());
             writeOverBill.setProducts(rekeningDto.getProducts());

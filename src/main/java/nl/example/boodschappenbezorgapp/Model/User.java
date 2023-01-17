@@ -50,9 +50,7 @@ public class User {
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
     }
-
-//    public void addAccount(Account account ) {this.account.add(account); }
-
+    
     public void removeAccount(Account account) {
         this.account.remove(account);
     }

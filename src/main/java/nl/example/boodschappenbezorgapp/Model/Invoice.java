@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 
 @Entity
-public class Rekening {
+public class Invoice {
 
     @Id
     @GeneratedValue

@@ -1,19 +1,18 @@
 package nl.example.boodschappenbezorgapp.DTO;
 
-
 import lombok.*;
 import nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum;
+import nl.example.boodschappenbezorgapp.Model.Account;
+import nl.example.boodschappenbezorgapp.Model.GroceryList;
 
 @Getter
 @Setter
 
-public class GroceryListDto {
+public class DeliveryDto {
 
-
-    private String name;
     private String address;
-    private String bezorginstructies;
-    private int dateTime;
-    private String products;
     private DeliveryRequestEnum status;
+    private Account account;
+    private GroceryList grocerylist;
+
 }

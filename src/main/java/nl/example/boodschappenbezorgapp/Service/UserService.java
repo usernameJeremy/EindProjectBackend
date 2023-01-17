@@ -68,14 +68,15 @@ public class UserService {
 
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setApikey(randomString);
+
         User newUser = userRepository.save(toUser(userDto));
 
         Account newAccount = new Account(newUser.getUsername(), "name","lastName","address");
         accountRepository.save(newAccount);
 
         assignAccountToUser(newUser.getUsername(),newAccount.getUsername());
-
         userRepository.save(newUser);
+
         return newUser.getUsername();
     }
 

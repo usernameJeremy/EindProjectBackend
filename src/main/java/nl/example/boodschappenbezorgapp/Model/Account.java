@@ -16,16 +16,17 @@ import java.util.List;
 public class Account{
 
 
-
+// delivery heeft een bezorger.
+// bezorger moet gekoppeld worden aan account
     @Id
     private String username;
-   // private String password;
+
     private String name;
     private String lastName;
     private String address;
 
     @OneToMany(mappedBy = "account")
-    private List<DeliveryRequest> bezorgVerzoek;
+    private List<Delivery> bezorgVerzoek;
 
     @OneToOne(
             targetEntity = User.class,
@@ -48,5 +49,7 @@ public class Account{
     public void remove(Account account) {
     }
 
+    public void setDelivery(Delivery delivery) {
 
+    }
 }
