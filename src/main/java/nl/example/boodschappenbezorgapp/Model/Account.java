@@ -16,8 +16,7 @@ import java.util.List;
 public class Account{
 
 
-// delivery heeft een bezorger.
-// bezorger moet gekoppeld worden aan account
+
     @Id
     private String username;
 
