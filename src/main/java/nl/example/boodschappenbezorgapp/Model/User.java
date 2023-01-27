@@ -55,9 +55,6 @@ public class User {
         this.account.remove(account);
     }
 
+    
 
-    public  void addAccount(String username, String name, String lastName, String address) {
-
-
-    }
 }

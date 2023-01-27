@@ -19,18 +19,14 @@ public class Delivery {
     @Id
     private String address;
 
-    @Enumerated(EnumType.STRING)
-    private DeliveryRequestEnum status;
-
     @ManyToOne
     private Account account;
     @OneToOne
     @JsonIgnore
     private GroceryList grocerylist;
 
-    public Delivery(String address, DeliveryRequestEnum status, GroceryList grocerylist) {
+    public Delivery(String address, GroceryList grocerylist) {
         this.address = address;
-        this.status = status;
         this.grocerylist = grocerylist;
     }
 }

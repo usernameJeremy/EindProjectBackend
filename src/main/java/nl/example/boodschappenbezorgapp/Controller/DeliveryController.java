@@ -1,19 +1,11 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
 import nl.example.boodschappenbezorgapp.DTO.DeliveryDto;
-import nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum;
-import nl.example.boodschappenbezorgapp.Model.Account;
-import nl.example.boodschappenbezorgapp.Model.Delivery;
 import nl.example.boodschappenbezorgapp.Repository.DeliveryRepository;
 import nl.example.boodschappenbezorgapp.Service.DeliveryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
-import static nl.example.boodschappenbezorgapp.Service.AccountService.accountRepository;
-import static nl.example.boodschappenbezorgapp.Service.DeliveryService.assignAccountToDelivery;
 
 @CrossOrigin
 @RestController

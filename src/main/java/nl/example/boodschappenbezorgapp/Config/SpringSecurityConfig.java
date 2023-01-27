@@ -28,14 +28,14 @@ public class SpringSecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    // PasswordEncoderBean. Deze kun je overal in je applicatie injecteren waar nodig.
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
 
-    // Authenticatie met customUserDetailsService en passwordEncoder
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)

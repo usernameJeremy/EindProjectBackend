@@ -4,6 +4,7 @@ import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
 import nl.example.boodschappenbezorgapp.Model.Delivery;
 import nl.example.boodschappenbezorgapp.Model.GroceryList;
+import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 import nl.example.boodschappenbezorgapp.Repository.DeliveryRepository;
 import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
 import org.springframework.stereotype.Service;
@@ -14,33 +15,37 @@ import static nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum.*;
 @Service
 public class GroceryListService {
 
-        private static GroceryListRepository groceryListRepository;
-        static DeliveryRepository deliveryRequestRepository;
-        private DeliveryService deliveryService;
+        public static GroceryListRepository groceryListRepository;
+        public static DeliveryRepository deliveryRequestRepository;
+        public static DeliveryService deliveryService;
+        public static AccountRepository accountRepository;
 
-    public GroceryListService(GroceryListRepository groceryListRepository, DeliveryRepository deliveryRequestRepository, DeliveryService deliveryService) {
+    public GroceryListService(GroceryListRepository groceryListRepository, DeliveryRepository deliveryRequestRepository, DeliveryService deliveryService,
+                              AccountRepository accountRepository) {
         this.groceryListRepository = groceryListRepository;
         this.deliveryRequestRepository = deliveryRequestRepository;
         this.deliveryService = deliveryService;
+        this.accountRepository = accountRepository;
     }
 
-        public String createGroceryList(GroceryListDto boodschapLijstDto) {
+        public String createGroceryList(GroceryListDto groceryListDto ) {
 
             GroceryList newGroceryLists = new GroceryList();
 
-            newGroceryLists.setName(boodschapLijstDto.getName());
-            newGroceryLists.setAddress(boodschapLijstDto.getAddress());
-            newGroceryLists.setProducts(boodschapLijstDto.getProducts());
-            newGroceryLists.setBezorginstructies(boodschapLijstDto.getBezorginstructies());
-            newGroceryLists.setDateTime(boodschapLijstDto.getDateTime());
+            newGroceryLists.setName(groceryListDto.getName());
+            newGroceryLists.setAddress(groceryListDto.getAddress());
+            newGroceryLists.setProducts(groceryListDto.getProducts());
+            newGroceryLists.setDeliveryInstructions(groceryListDto.getDeliveryInstructions());
+            newGroceryLists.setDateTime(groceryListDto.getDateTime());
+            newGroceryLists.setAccount(groceryListDto.getAccount());
             newGroceryLists.setStatus(AVAILABLE);
 
             groceryListRepository.save(newGroceryLists);
 
-            Delivery newDelivery = new Delivery(newGroceryLists.getAddress(), newGroceryLists.getStatus(), newGroceryLists);
+            Delivery newDelivery = new Delivery(newGroceryLists.getAddress(), newGroceryLists);
             deliveryRequestRepository.save(newDelivery);
 
-            assigGroceryListToDelivery(newDelivery.getAddress(), newGroceryLists.getAddress());
+            assignGroceryListToDelivery(newDelivery.getAddress(), newGroceryLists.getAddress());
             groceryListRepository.save(newGroceryLists);
 
         return newGroceryLists.getAddress();
@@ -58,6 +63,7 @@ public class GroceryListService {
         }
         return resultList;
     }
+
         //ophalen 1 object
         public GroceryListDto getGroceryList(String id) {
         Optional<GroceryList> requestedGroceryList = groceryListRepository.findById(id);
@@ -67,6 +73,7 @@ public class GroceryListService {
             return transferToDto(requestedGroceryList.get());
         }
     }
+
         //verwijderen
         public String deleteGroceryList(String id) {
         Optional<GroceryList> optionalGroceryList = groceryListRepository.findById(id);
@@ -78,16 +85,16 @@ public class GroceryListService {
         }
     }
         //UPDATEN
-        public GroceryListDto overWriteGroceryList(String id, GroceryListDto boodschapLijstDto) {
+        public GroceryListDto overWriteGroceryList(String id, GroceryListDto groceryListDto) {
         Optional<GroceryList> toOverWriteGroceryList = groceryListRepository.findById(id);
         if (toOverWriteGroceryList.isPresent()) {
             GroceryList writeOverGroceryList = toOverWriteGroceryList.get();
 
-            writeOverGroceryList.setName(boodschapLijstDto.getName());
-            writeOverGroceryList.setAddress(boodschapLijstDto.getAddress());
-            writeOverGroceryList.setProducts(boodschapLijstDto.getProducts());
-            writeOverGroceryList.setBezorginstructies(boodschapLijstDto.getBezorginstructies());
-            writeOverGroceryList.setDateTime(boodschapLijstDto.getDateTime());
+            writeOverGroceryList.setName(groceryListDto.getName());
+            writeOverGroceryList.setAddress(groceryListDto.getAddress());
+            writeOverGroceryList.setProducts(groceryListDto.getProducts());
+            writeOverGroceryList.setDeliveryInstructions(groceryListDto.getDeliveryInstructions());
+            writeOverGroceryList.setDateTime(groceryListDto.getDateTime());
 
             groceryListRepository.save(writeOverGroceryList);
 
@@ -96,40 +103,21 @@ public class GroceryListService {
             throw new RecordNotFoundException("Grocery list with ID: " + id + " doesn't exist or is not found");
         }
     }
-    public GroceryListDto transferToDto (GroceryList boodschapLijst) {
+    public GroceryListDto transferToDto (GroceryList groceryList) {
 
         GroceryListDto dto = new GroceryListDto();
 
-
-        dto.setName(boodschapLijst.getName());
-        dto.setAddress(boodschapLijst.getAddress());
-        dto.setProducts(boodschapLijst.getProducts());
-        dto.setBezorginstructies(boodschapLijst.getBezorginstructies());
-        dto.setDateTime(boodschapLijst.getDateTime());
-        dto.setStatus(boodschapLijst.getStatus());
-
+        dto.setName(groceryList.getName());
+        dto.setAddress(groceryList.getAddress());
+        dto.setProducts(groceryList.getProducts());
+        dto.setDeliveryInstructions(groceryList.getDeliveryInstructions());
+        dto.setDateTime(groceryList.getDateTime());
+        dto.setStatus(groceryList.getStatus());
+        dto.setAccount(groceryList.getAccount());
 
         return dto;
     }
-
-    public GroceryList transferFromDto (GroceryListDto boodschaplijstDto) {
-
-        GroceryList boodschapLijst = new GroceryList();
-
-        boodschapLijst.setName(boodschaplijstDto.getName());
-        boodschapLijst.setAddress(boodschaplijstDto.getAddress());
-        boodschapLijst.setBezorginstructies(boodschaplijstDto.getBezorginstructies());
-        boodschapLijst.setDateTime(boodschaplijstDto.getDateTime());
-        boodschapLijst.setProducts(boodschaplijstDto.getProducts());
-        boodschapLijst.setStatus(boodschaplijstDto.getStatus());
-        if (boodschapLijst.getDeliveryRequest() == null){
-            boodschapLijst.setDelivery(boodschapLijst.getDeliveryRequest());
-        }
-
-        return boodschapLijst;
-    }
-
-    public static void assigGroceryListToDelivery(String id, String deliveryId) {
+    public static void assignGroceryListToDelivery(String id, String deliveryId) {
         Optional<GroceryList> optionalGroceryList = groceryListRepository.findById(id);
         Optional<Delivery> optionalDelivery = deliveryRequestRepository.findById(deliveryId);
         if (optionalGroceryList.isPresent() && optionalDelivery.isPresent()) {

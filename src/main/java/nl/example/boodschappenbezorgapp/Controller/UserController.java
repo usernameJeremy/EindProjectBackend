@@ -3,7 +3,6 @@ package nl.example.boodschappenbezorgapp.Controller;
 
 import nl.example.boodschappenbezorgapp.DTO.UserDto;
 import nl.example.boodschappenbezorgapp.Exceptions.BadRequestException;
-import nl.example.boodschappenbezorgapp.Service.AccountService;
 import nl.example.boodschappenbezorgapp.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +17,8 @@ public class UserController {
 
     private final UserService userService;
 
-    private final AccountService accountService;
-
-    public UserController(UserService userService, AccountService accountService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.accountService = accountService;
     }
 
     @GetMapping(value = "")
@@ -37,7 +33,6 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
 
         UserDto optionalUser = userService.getUser(username);
-
 
         return ResponseEntity.ok().body(optionalUser);
 
@@ -56,7 +51,6 @@ public class UserController {
         return ResponseEntity.created(location).build();
 
     }
-
 
 
     @PutMapping(value = "/{username}")

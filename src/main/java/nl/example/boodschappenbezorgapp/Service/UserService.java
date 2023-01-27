@@ -10,8 +10,8 @@ import nl.example.boodschappenbezorgapp.Model.User;
 import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 import nl.example.boodschappenbezorgapp.Repository.UserRepository;
 import nl.example.boodschappenbezorgapp.Utils.RandomStringGenerator;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,19 +65,17 @@ public class UserService {
     public String createUser(UserDto userDto) {
 
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setApikey(randomString);
-
         User newUser = userRepository.save(toUser(userDto));
 
         Account newAccount = new Account(newUser.getUsername(), "name","lastName","address");
         accountRepository.save(newAccount);
-
         assignAccountToUser(newUser.getUsername(),newAccount.getUsername());
         userRepository.save(newUser);
 
         return newUser.getUsername();
+
     }
 
     public void deleteUser(String username) {
@@ -107,13 +105,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void addAccount(String username, String name, String lastName, String address) {
 
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
-        user.addAccount(username, name, lastName, address );
-        accountRepository.save(new Account(username, name, lastName, address));
-    }
 
     public void removeAuthority(String username, String authority) {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
@@ -140,7 +132,7 @@ public class UserService {
         return dto;
     }
 
-    public User toUser(UserDto userDto) {
+    public static User toUser(UserDto userDto) {
 
         var user = new User();
 
@@ -170,4 +162,20 @@ public class UserService {
         }
     }
 
+    public Object findById(String username) {
+        return username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserService that = (UserService) o;
+        return Objects.equals(passwordEncoder, that.passwordEncoder);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(passwordEncoder);
+    }
 }

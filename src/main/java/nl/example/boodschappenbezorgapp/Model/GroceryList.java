@@ -1,5 +1,6 @@
 package nl.example.boodschappenbezorgapp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum;
 
@@ -18,21 +19,19 @@ public class GroceryList {
     private String name;
     @Id
     private String address;
-    private String bezorginstructies;
+    private String deliveryInstructions;
     private int dateTime;
     private String products;
 
     @Enumerated(EnumType.STRING)
     private DeliveryRequestEnum status;
 
-
-
     @OneToOne(mappedBy = "grocerylist")
     private Delivery deliveryRequest;
 
     @OneToOne(mappedBy = "grocerylist")
-    private Invoice rekening;
-
+    @JsonIgnore
+    private Account account;
 
     public void setDelivery(Delivery delivery) {
     }

@@ -1,5 +1,6 @@
 package nl.example.boodschappenbezorgapp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
@@ -24,7 +25,11 @@ public class Account{
     private String lastName;
     private String address;
 
+    @OneToOne
+    private GroceryList grocerylist;
+
     @OneToMany(mappedBy = "account")
+    @JsonIgnore
     private List<Delivery> bezorgVerzoek;
 
     @OneToOne(
@@ -33,6 +38,7 @@ public class Account{
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
+    @JsonIgnore
     private User user;
 
     public Account( String username, String name, String lastName, String address) {
@@ -41,6 +47,8 @@ public class Account{
         this.lastName = lastName;
         this.address = address;
     }
+
+
 
     public void add(Account account) {
 
