@@ -3,8 +3,11 @@ package nl.example.boodschappenbezorgapp.Service;
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
 import nl.example.boodschappenbezorgapp.Model.Account;
+import nl.example.boodschappenbezorgapp.Model.Delivery;
+import nl.example.boodschappenbezorgapp.Model.GroceryList;
 import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 
+import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
 import nl.example.boodschappenbezorgapp.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,47 +19,25 @@ import java.util.Optional;
 public class AccountService {
 
 
-    public static AccountRepository accountRepository;
-    public static UserRepository userRepository;
-    public AccountService(UserRepository userRepository, AccountRepository accountRepository ) {
-        this.userRepository = userRepository;
+    public  AccountRepository accountRepository;
+    public  UserRepository userRepository;
+    public  GroceryListRepository groceryListRepository;
+
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository, GroceryListRepository groceryListRepository) {
         this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
+        this.groceryListRepository = groceryListRepository;
     }
 
 
-
-    public AccountDto transferToDto (Account account) {
-
-        AccountDto dto = new AccountDto();
-
-        dto.setUsername(account.getUsername());
-        dto.setName(account.getName());
-        dto.setLastName(account.getLastName());
-        dto.setAddress(account.getAddress());
-        dto.setUser(account.getUser());
-
-        return dto;
-    }
-
-    public Account transferFromDto (AccountDto accountDto) {
-
-
-        Account account = new Account();
-
-        account.setUsername(accountDto.getUsername());
-        account.setName(accountDto.getName());
-        account.setLastName(accountDto.getLastName());
-        account.setAddress(accountDto.getAddress());
-        account.setUser(accountDto.getUser());
-
-        return account;
+    public void setAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
 
     public String createAccount(AccountDto accountDto) {
 
         Account newAccount = new Account();
-        //map DTO entity
 
         newAccount.setUsername(accountDto.getUsername());
         newAccount.setName(accountDto.getName());
@@ -64,8 +45,9 @@ public class AccountService {
         newAccount.setAddress(accountDto.getAddress());
         newAccount.setUser(accountDto.getUser());
 
-        Account savedAccount = accountRepository.save(newAccount);
-        return savedAccount.getUsername();
+
+       accountRepository.save(newAccount);
+        return newAccount.getUsername();
 
     }
 
@@ -117,6 +99,20 @@ public class AccountService {
             throw new RecordNotFoundException("Account with ID: " + id + " doesn't exist or is not found");
         }
     }
+    public AccountDto transferToDto (Object obj) {
+
+        if(!(obj instanceof Account account)) throw new IllegalArgumentException("Object is not of type Account");
+        AccountDto dto = new AccountDto();
+
+        dto.setUsername(account.getUsername());
+        dto.setName(account.getName());
+        dto.setLastName(account.getLastName());
+        dto.setAddress(account.getAddress());
+        dto.setUser(account.getUser());
+
+        return dto;
+    }
+
 }
 
 
