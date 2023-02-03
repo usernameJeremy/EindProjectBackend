@@ -65,18 +65,18 @@ public class SpringSecurityConfig {
 
                 .antMatchers(HttpMethod.POST, "/accounts").permitAll()
                 .antMatchers(HttpMethod.GET,"/accounts").hasAnyRole("ADMIN", "USER")
-                .antMatchers(HttpMethod.POST,"/accounts/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/accounts/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/accounts/**").hasRole("ADMIN")
 
-                .antMatchers(HttpMethod.POST, "/grocerylists").permitAll()
-                .antMatchers(HttpMethod.GET,"/grocerylists").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/grocerylists/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/grocerylists/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/grocerylists").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET,"/grocerylists").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST,"/grocerylists/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, "/grocerylists/**").hasAnyRole("ADMIN", "USER")
 
-                .antMatchers(HttpMethod.POST, "/deliveryrequest").permitAll()
-                .antMatchers(HttpMethod.GET,"/deliveryrequest").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/deliveryrequest/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/deliveryrequest/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/deliveryrequest").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET,"/deliveryrequest").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST,"/deliveryrequest/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, "/deliveryrequest/**").hasAnyRole("ADMIN", "USER")
 
                 .antMatchers(HttpMethod.POST, "/upload").hasAnyRole("USER","ADMIN")
                 .antMatchers(HttpMethod.GET,"/files").hasAnyRole("USER","ADMIN")

@@ -44,25 +44,6 @@ public class UploadDownloadWithDatabaseController {
         return databaseService.singleFileDownload(fileName, request);
     }
 
-//    post for multiple uploads to database
-    @PostMapping("/multiple/upload/db")
-    List<FileUploadResponse> multipleUpload(@RequestParam("files") MultipartFile [] files) {
-
-        if(files.length > 7) {
-            throw new RuntimeException("to many files selected");
-        }
-
-        return databaseService.createMultipleUpload(files);
-
-    }
-
-    @GetMapping("zipDownload/db")
-    public void zipDownload(@RequestBody String[] files, HttpServletResponse response) throws IOException {
-
-        databaseService.getZipDownload(files, response);
-
-    }
-
     @GetMapping("/getAll/db")
     public Collection<FileDocument> getAllFromDB(){
         return databaseService.getALlFromDB();

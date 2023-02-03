@@ -96,7 +96,6 @@ public class AccountService {
             writeOverAccount.setAddress(accountDto.getAddress());
             writeOverAccount.setFileDocument(accountDto.getFileDocument());
 
-
             accountRepository.save(writeOverAccount);
 
             return transferToDto(writeOverAccount);

@@ -40,7 +40,6 @@ public class AccountController {
     @GetMapping("{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable String id) {
 
-
         return ResponseEntity.ok(accountService.getAccount(id));
     }
 
