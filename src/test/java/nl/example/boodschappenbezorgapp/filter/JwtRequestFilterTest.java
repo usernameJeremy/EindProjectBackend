@@ -26,24 +26,19 @@ import static org.mockito.Mockito.when;
 class JwtRequestFilterTest {
     @Mock
     private CustomUserDetailsService userDetailsService;
-
     @Mock
     private JwtUtil jwtUtil;
-
     @Mock
     private HttpServletRequest request;
-
     @Mock
     private HttpServletResponse response;
-
     @Mock
     private FilterChain filterChain;
-
     @InjectMocks
     private JwtRequestFilter jwtRequestFilter;
     @Test
     void doFilterInternal() throws ServletException, IOException {
-        // Arrange
+
         String jwt = "validJwt";
         String username = "testUser";
         UserDetails userDetails = mock(UserDetails.class);
@@ -52,13 +47,10 @@ class JwtRequestFilterTest {
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(jwtUtil.validateToken(jwt, userDetails)).thenReturn(true);
 
-        // Act
         jwtRequestFilter.doFilterInternal(request, response, filterChain);
 
-        // Assert
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         assertNotNull(authentication);
         assertEquals(authentication.getPrincipal(), userDetails);
-
     }
 }

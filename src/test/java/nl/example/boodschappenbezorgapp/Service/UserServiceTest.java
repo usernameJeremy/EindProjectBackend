@@ -101,7 +101,6 @@ class UserServiceTest  {
     @Test
     void getUser() {
 
-
         when(userRepository.findById("testUsername3")).thenReturn(Optional.of(user3));
         UserDto userDto = userService.getUser("testUsername3");
 
@@ -115,15 +114,12 @@ class UserServiceTest  {
 
     @Test
     void deleteUser() {
-        // Arrange
         String username = "testUsername";
         User expectedUser = new User("testUsername", "encodedpassword", true, "testApiKey", "email@example.com", null, null);
         when(userRepository.findById(username)).thenReturn(Optional.of(expectedUser));
 
-        // Act
         userService.deleteUser(username);
 
-        // Assert
         verify(userRepository).deleteById(username);
     }
 
@@ -198,7 +194,4 @@ class UserServiceTest  {
 
     }
 
-    @Test
-    void findById() {
-    }
 }

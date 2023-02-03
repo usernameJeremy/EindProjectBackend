@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Entity
 public class Delivery {
 
-
     @Id
     private String address;
 

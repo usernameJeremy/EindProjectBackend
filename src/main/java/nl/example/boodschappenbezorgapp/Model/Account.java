@@ -1,6 +1,7 @@
 package nl.example.boodschappenbezorgapp.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
@@ -16,11 +17,8 @@ import java.util.List;
 @Table(name = "accounts")
 public class Account{
 
-
-
     @Id
     private String username;
-
     private String name;
     private String lastName;
     private String address;
@@ -30,7 +28,7 @@ public class Account{
 
     @OneToMany(mappedBy = "account")
     @JsonIgnore
-    private List<Delivery> bezorgVerzoek;
+    private List<Delivery> deliveryRequest;
 
     @OneToOne(
             targetEntity = User.class,
@@ -40,6 +38,10 @@ public class Account{
             fetch = FetchType.EAGER)
     @JsonIgnore
     private User user;
+
+    @OneToOne(mappedBy = "account")
+    @JsonIgnoreProperties(value = "account")
+    private FileDocument fileDocument;
 
     public Account( String username, String name, String lastName, String address) {
         this.username = username;

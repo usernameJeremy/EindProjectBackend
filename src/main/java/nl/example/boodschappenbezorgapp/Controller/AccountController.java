@@ -1,16 +1,19 @@
 package nl.example.boodschappenbezorgapp.Controller;
 
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
+import nl.example.boodschappenbezorgapp.Model.FileDocument;
 import nl.example.boodschappenbezorgapp.Service.AccountService;
+import nl.example.boodschappenbezorgapp.Service.DatabaseService;
 import nl.example.boodschappenbezorgapp.Utils.Utils;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 
 
@@ -21,9 +24,11 @@ import java.net.URI;
 public class AccountController {
 
     private final AccountService accountService;
+    private final DatabaseService databaseService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, DatabaseService databaseService) {
         this.accountService = accountService;
+        this.databaseService = databaseService;
     }
 
     @GetMapping("")
@@ -69,4 +74,11 @@ public class AccountController {
         return ResponseEntity.ok(accountService.overWriteAccount(id, accountDto ));
 
     }
+
+    @PostMapping("{id}/upload")
+    public void assignPhotoToClient(@PathVariable String id, @RequestBody MultipartFile file) throws IOException {
+
+        FileDocument fileDocument = databaseService.uploadFileDocument(file);
+
+        AccountService.assignFileToAccount(fileDocument.getFileName(), id);}
 }

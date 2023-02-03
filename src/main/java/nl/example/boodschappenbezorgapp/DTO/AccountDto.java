@@ -1,6 +1,7 @@
 package nl.example.boodschappenbezorgapp.DTO;
 
 import lombok.*;
+import nl.example.boodschappenbezorgapp.Model.FileDocument;
 import nl.example.boodschappenbezorgapp.Model.User;
 
 import java.util.Objects;
@@ -19,7 +20,8 @@ public class AccountDto {
     private String lastName;
     private String address;
 
-    public User user;
+    private User user;
+    private FileDocument fileDocument;
 
     public AccountDto( String username, String name, String lastName, String address) {
         this.username = username;

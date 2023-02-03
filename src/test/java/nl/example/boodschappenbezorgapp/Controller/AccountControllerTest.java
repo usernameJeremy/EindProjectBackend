@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
 import nl.example.boodschappenbezorgapp.Model.Account;
 import nl.example.boodschappenbezorgapp.Service.AccountService;
+import nl.example.boodschappenbezorgapp.Service.DatabaseService;
 import nl.example.boodschappenbezorgapp.filter.JwtRequestFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,47 +32,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class AccountControllerTest {
 
-    @InjectMocks
-    AccountController accountController;
     @MockBean
     private AccountService accountService;
     @MockBean
     HttpServlet httpServlet;
     @MockBean
     private JwtRequestFilter jwtRequestFilter;
-
+    @MockBean
+    private DatabaseService databaseService;
     @Autowired
     private MockMvc mockMvc;
 
-
-    Account gebruiker1;
-    Account gebruiker2;
-    Account gebruiker3;
-    AccountDto accountDto6;
     AccountDto accountDto1;
     AccountDto accountDto2;
-    AccountDto accountDto3;
-    AccountDto accountDto4;
-    AccountDto accountDto5;
+
 
     @BeforeEach
     void setUp() {
 
-        gebruiker1 = new Account("testUsername1", "testPassword", "testApiKey", "testEmail");
-        gebruiker2 = new Account("testUsername2", "testPassword", "testApiKey", "testEmail");
-        gebruiker3 = new Account("testUsername3", "testPassword", "testApiKey", "testEmail");
-
         accountDto1 = new AccountDto("testUsername1", "testPassword", "testApiKey", "testEmail");
         accountDto2 = new AccountDto("testUsername2", "testPassword", "testApiKey", "testEmail");
-        accountDto3 = new AccountDto("testUsername3", "testPassword", "testApiKey", "testEmail");
-        accountDto4 = new AccountDto("testUsername4", "testPassword", "testApiKey", "testEmail");
-        accountDto5 = new AccountDto("testUsername1", "testPassword", "testApiKey", "testEmail");
-        accountDto6 = new AccountDto("testUsername2", "testPassword", "testApiKey", "testEmail");
+
     }
 
     @Test
     public void getAllAccountsTest() throws Exception {
         // Arrange
+        accountDto1 = new AccountDto("testUsername1", "testPassword", "testApiKey", "testEmail");
+        accountDto2 = new AccountDto("testUsername2", "testPassword", "testApiKey", "testEmail");
+
         given(accountService.getAllAccounts()).willReturn(List.of(accountDto1, accountDto2));
 
         // Act and Assert
@@ -104,7 +93,6 @@ class AccountControllerTest {
                 .andExpect(status().isCreated());
     }
 
-
     @Test
     void deleteAccount() throws Exception{
         String account = "testAccount";
@@ -114,7 +102,6 @@ class AccountControllerTest {
 
         verify(accountService).deleteAccount(account);
     }
-
 
     public static String asJsonString(final Object obj) {
         try {

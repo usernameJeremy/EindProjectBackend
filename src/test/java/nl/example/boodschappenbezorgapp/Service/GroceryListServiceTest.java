@@ -2,24 +2,14 @@ package nl.example.boodschappenbezorgapp.Service;
 
 
 import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
-import nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum;
-import nl.example.boodschappenbezorgapp.Model.Account;
-import nl.example.boodschappenbezorgapp.Model.Delivery;
-import nl.example.boodschappenbezorgapp.Model.GroceryList;
-import nl.example.boodschappenbezorgapp.Repository.DeliveryRepository;
-import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import nl.example.boodschappenbezorgapp.Model.*;
+import nl.example.boodschappenbezorgapp.Repository.*;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
-
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.junit.jupiter.*;
 import org.mockito.quality.Strictness;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum.AVAILABLE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,19 +23,12 @@ class GroceryListServiceTest {
 
     @Mock
     GroceryList groceryList;
-
-
     @Mock
     private GroceryListRepository groceryListRepository;
-
-    @Mock
-    Account account;
     @Mock
     private DeliveryRepository deliveryRepository;
-
     @InjectMocks
     private GroceryListService groceryListService;
-
 
 GroceryList groceryList1;
     GroceryList groceryList2;

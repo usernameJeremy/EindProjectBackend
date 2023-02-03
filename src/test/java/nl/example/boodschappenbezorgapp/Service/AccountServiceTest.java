@@ -1,26 +1,18 @@
 package nl.example.boodschappenbezorgapp.Service;
 
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
-import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
 import nl.example.boodschappenbezorgapp.Model.Account;
 import nl.example.boodschappenbezorgapp.Model.User;
-import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
-import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
-import nl.example.boodschappenbezorgapp.Repository.UserRepository;
+import nl.example.boodschappenbezorgapp.Repository.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -30,20 +22,8 @@ class AccountServiceTest {
 
     @Mock
     AccountRepository accountRepository;
-    @Mock
-    UserRepository userRepository;
-    @Mock
-    GroceryListRepository groceryListRepository;
-    @Mock
-    Account account;
     @InjectMocks
     AccountService accountService;
-
-
-    @Test
-    void transferFromDto() {
-    }
-
 
     @Test
     public void testCreateAccount() {
@@ -62,7 +42,6 @@ class AccountServiceTest {
         newAccount.setAddress("123 Test St");
         newAccount.setUser(new User());
 
-
         AccountRepository accountRepository = mock(AccountRepository.class);
         accountService.setAccountRepository(accountRepository);
 
@@ -73,9 +52,7 @@ class AccountServiceTest {
 
         // Assert
         assertEquals("testuser", username);
-
     }
-
     @Test
     void getAllAccounts() {
         User user = new User();
@@ -121,13 +98,16 @@ class AccountServiceTest {
 
         List<AccountDto> foundLists = (List<AccountDto>) accountService.getAllAccounts();
 
-        assertEquals(expectedList.get(0).getName(), foundLists.get(0).getName() );
-        assertEquals(expectedList.get(0).getAddress(), foundLists.get(0).getAddress() );
-        assertEquals(expectedList.get(1).getName(), foundLists.get(1).getName() );
-        assertEquals(expectedList.get(1).getAddress(), foundLists.get(1).getAddress() );
+        assertEquals(expectedList.get(0).getName(), foundLists.get(0).getName());
+        assertEquals(expectedList.get(0).getAddress(), foundLists.get(0).getAddress());
+        assertEquals(expectedList.get(0).getLastName(), foundLists.get(0).getLastName());
+        assertEquals(expectedList.get(0).getUsername(), foundLists.get(0).getUsername());
 
+        assertEquals(expectedList.get(1).getName(), foundLists.get(1).getName());
+        assertEquals(expectedList.get(1).getAddress(), foundLists.get(1).getAddress());
+        assertEquals(expectedList.get(1).getLastName(), foundLists.get(1).getLastName());
+        assertEquals(expectedList.get(1).getUsername(), foundLists.get(1).getUsername());
     }
-
     @Test
     void getAccount() {
         Account newAccount = new Account();
@@ -148,7 +128,6 @@ class AccountServiceTest {
         assertEquals(user, accountDto.getUser());
 
     }
-
     @Test
     void deleteAccount() {
         Account newAccount = new Account();
@@ -163,6 +142,5 @@ class AccountServiceTest {
 
         assertEquals(result, "Account With " + "testId" + " removed");
     }
-
 
 }

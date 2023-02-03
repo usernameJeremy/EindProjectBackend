@@ -4,9 +4,11 @@ import nl.example.boodschappenbezorgapp.DTO.AccountDto;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
 import nl.example.boodschappenbezorgapp.Model.Account;
 import nl.example.boodschappenbezorgapp.Model.Delivery;
+import nl.example.boodschappenbezorgapp.Model.FileDocument;
 import nl.example.boodschappenbezorgapp.Model.GroceryList;
 import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 
+import nl.example.boodschappenbezorgapp.Repository.DocFileRepository;
 import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
 import nl.example.boodschappenbezorgapp.Repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -19,14 +21,16 @@ import java.util.Optional;
 public class AccountService {
 
 
-    public  AccountRepository accountRepository;
+    public static AccountRepository accountRepository;
     public  UserRepository userRepository;
     public  GroceryListRepository groceryListRepository;
+    public static DocFileRepository docFileRepository;
 
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository, GroceryListRepository groceryListRepository) {
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository, GroceryListRepository groceryListRepository, DocFileRepository docFileRepository) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
         this.groceryListRepository = groceryListRepository;
+        this.docFileRepository = docFileRepository;
     }
 
 
@@ -90,6 +94,7 @@ public class AccountService {
             writeOverAccount.setName(accountDto.getName());
             writeOverAccount.setLastName(accountDto.getLastName());
             writeOverAccount.setAddress(accountDto.getAddress());
+            writeOverAccount.setFileDocument(accountDto.getFileDocument());
 
 
             accountRepository.save(writeOverAccount);
@@ -109,10 +114,24 @@ public class AccountService {
         dto.setLastName(account.getLastName());
         dto.setAddress(account.getAddress());
         dto.setUser(account.getUser());
+        dto.setFileDocument(account.getFileDocument());
 
         return dto;
     }
 
+    public static void assignFileToAccount(String fileName, String username) {
+        Optional<Account> optionalAccount = accountRepository.findById(username);
+        Optional<FileDocument> optionalFile = Optional.ofNullable(docFileRepository.findByFileName(fileName));
+        if (optionalAccount.isEmpty()) {
+            throw new RecordNotFoundException("Client with id: " + username + " not found");
+        } else if (optionalFile.isEmpty()) {
+            throw new RecordNotFoundException("File with id: " + fileName + " not found");
+        } else {
+            FileDocument file = optionalFile.get();
+            Account account = optionalAccount.get();
+            file.setAccount(account);
+            docFileRepository.save(file);
+        }}
 }
 
 

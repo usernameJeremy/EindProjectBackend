@@ -1,7 +1,6 @@
 package nl.example.boodschappenbezorgapp.Service;
 
 import nl.example.boodschappenbezorgapp.DTO.DeliveryDto;
-import nl.example.boodschappenbezorgapp.DTO.GroceryListDto;
 import nl.example.boodschappenbezorgapp.Enum.DeliveryRequestEnum;
 import nl.example.boodschappenbezorgapp.Exceptions.RecordNotFoundException;
 import nl.example.boodschappenbezorgapp.Model.Account;
@@ -10,27 +9,18 @@ import nl.example.boodschappenbezorgapp.Model.GroceryList;
 import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 import nl.example.boodschappenbezorgapp.Repository.DeliveryRepository;
 import nl.example.boodschappenbezorgapp.Repository.GroceryListRepository;
-import org.apache.commons.collections4.IterableUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
-
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -113,7 +103,6 @@ class DeliveryServiceTest {
         assertEquals(DeliveryRequestEnum.COMPLETED, groceryList.getStatus());
     }
 
-
     @Test
     void transferToDto() {
         // Arrange
@@ -152,7 +141,6 @@ class DeliveryServiceTest {
         // Act + Assert
         assertThrows(RecordNotFoundException.class, () -> DeliveryService.assignAccountToGroceryList(deliveryId, accountId));
     }
-
     @Test
     void assignAccountToGroceryList() {
         // Arrange

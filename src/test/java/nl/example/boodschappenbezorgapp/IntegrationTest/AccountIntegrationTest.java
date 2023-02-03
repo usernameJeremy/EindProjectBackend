@@ -2,32 +2,20 @@ package nl.example.boodschappenbezorgapp.IntegrationTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.example.boodschappenbezorgapp.Controller.AccountController;
 import nl.example.boodschappenbezorgapp.DTO.AccountDto;
 import nl.example.boodschappenbezorgapp.Model.Account;
 import nl.example.boodschappenbezorgapp.Repository.AccountRepository;
 import nl.example.boodschappenbezorgapp.Service.AccountService;
-import nl.example.boodschappenbezorgapp.filter.JwtRequestFilter;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.servlet.http.HttpServlet;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,13 +31,10 @@ class AccountIntegrationTest {
     private AccountService accountService;
     @Autowired
     AccountRepository accountRepository;
-
     Account gebruiker1;
     Account gebruiker2;
     Account gebruiker3;
-
     AccountDto accountDto1;
-
 
     @BeforeEach
     void setUp() {
@@ -63,10 +48,7 @@ class AccountIntegrationTest {
         accountRepository.save(gebruiker3);
 
         accountDto1 = new AccountDto("testUsername1", "testPassword", "testApiKey", "testEmail");
-
-
     }
-
     @Test
     public void ShouldGetAllAccounts() throws Exception {
 
@@ -76,7 +58,6 @@ class AccountIntegrationTest {
                 .andExpect(jsonPath("$[1].username").value("jerry"));
 
     }
-
     @Test
     void getAccount() throws Exception {
 
@@ -85,10 +66,7 @@ class AccountIntegrationTest {
                 .andExpect(jsonPath("username").value("Geef"))
                 .andExpect(jsonPath("name").value("Mij AUB"))
                 .andExpect(jsonPath("lastName").value("een"))
-                .andExpect(jsonPath("address").value("Goed cijfer"))
-                ;
-
-
+                .andExpect(jsonPath("address").value("Goed cijfer"));
     }
 
     @Test
@@ -107,8 +85,6 @@ class AccountIntegrationTest {
 
         mockMvc.perform(delete("/accounts/"+ gebruiker3.getUsername()))
                 .andExpect(status().isOk());
-
-
     }
 
     public static String asJsonString(final Object obj) {
