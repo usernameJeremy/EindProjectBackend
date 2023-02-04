@@ -65,7 +65,7 @@ public class SpringSecurityConfig {
 
                 .antMatchers(HttpMethod.POST, "/accounts").permitAll()
                 .antMatchers(HttpMethod.GET,"/accounts").hasAnyRole("ADMIN", "USER")
-                .antMatchers(HttpMethod.POST,"/accounts/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST,"/accounts/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/accounts/**").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/grocerylists").hasAnyRole("ADMIN", "USER")
